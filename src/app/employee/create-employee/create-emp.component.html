@@ -1,0 +1,94 @@
+<form #employeeForm="ngForm" (ngSubmit)="saveEmployee(employeeForm)" novalidate>
+    <div class="container">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Create Employee</h3>
+      </div>
+      <div class="panel-body">
+  
+        <div class="form-group">
+          <label for="fullName">Full Name <i>*</i></label>
+          <input id="fullName" type="text" class="form-control" minlength="4" forbiddenName="Karan" pattern="[a-zA-Z][a-zA-Z ]+"
+                 name="fullName" [(ngModel)]="fullName" #fullNameControl="ngModel"
+                 required>
+            <div *ngIf="(fullNameControl.invalid) && (employeeForm.submitted || fullNameControl.dirty || fullNameControl.touched)"
+                 class="alert alert-danger">
+            
+              <div *ngIf="fullNameControl.errors.required">
+                Name is required.
+              </div>
+              <div *ngIf="fullNameControl.errors.minlength">
+                Name must be at least 4 characters long.
+              </div>
+              <div *ngIf="fullNameControl.errors.forbiddenName">
+                Name cannot be Karan.
+              </div>
+              <div *ngIf="fullNameControl.errors.pattern">
+                Only characters [a-z][A-Z] is allowed.
+              </div>
+            </div>        
+        </div>
+  
+        <div class="form-group">
+            <label for="phoneNumber">Mobile Number <i>*</i></label>
+            <input type="tel" name="phoneNumber" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber" minlength="10" maxlength="10"
+            placeholder="9632633233" pattern="[0-9]*"
+            #mobileNumber="ngModel" required>
+            <div *ngIf="(mobileNumber.invalid || mobileNumber.error) && (employeeForm.submitted || mobileNumber.dirty || mobileNumber.touched)"
+                 class="alert alert-danger">
+            
+              <div *ngIf="mobileNumber.errors.required">
+                Mobile Number is required.
+              </div>
+              <div *ngIf="mobileNumber.errors.minlength">
+                Name must be 10 digit long.
+              </div>
+              <div *ngIf="mobileNumber.errors?.pattern">
+                Only numbers [0-9] allowed.
+              </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" class="form-control" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" 
+                 name="email" [(ngModel)]="email" required>
+        </div>
+
+        <div class="form-group">
+                <label>Gender</label>
+                    <div class="form-control">
+                    <label class="radio-inline">
+                        <input type="radio" name="gender" value="male" [(ngModel)]="gender"> 
+                        Male
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="gender" value="female" [(ngModel)]="gender"> 
+                        Female
+                    </label>
+                    </div>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Date of Birth</label>
+            <input id="date" type="date"name="date" class="form-control" [(ngModel)]= "date">
+        </div>
+
+        <div class="form-group" >
+            <label for="department">Department</label>
+            <select id="department" name="department" class="form-control" [(ngModel)]="department" >
+                <option *ngFor="let depart of departments" [value]="depart.id">
+                    {{depart.name}}
+                </option>
+            </select>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </div>
+    </div>
+  </form>
+
+  {{employeeForm.value | json}} 
